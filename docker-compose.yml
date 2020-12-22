@@ -1,0 +1,49 @@
+version: '3.7'
+services:
+  postgres:
+    container_name: pg_game_db
+    image: 'postgres:10-alpine'
+    environment:
+      POSTGRES_USER: game_user
+      POSTGRES_PASSWORD: game_pass
+      POSTGRES_DB: pg_game
+    restart: always
+    volumes:
+      - 'postgres-pg_game-data:/var/lib/postgresql/data'
+    ports:
+      - '5432:5432'
+    networks:
+      - pg_game_network
+  python:
+    restart: always
+    container_name: pg_game_python
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    volumes:
+      - './pg_game:/var/www/pg_game'
+    ports:
+      - '8009:8009'
+    networks:
+      - pg_game_network
+  pg-admin:
+    container_name: pg_game_python_pg_admin
+    image: 'dpage/pgadmin4'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@applecity.kz
+      PGADMIN_DEFAULT_PASSWORD: Z72zGLr5
+    ports:
+      - '16543:80'
+    depends_on:
+      - postgres
+    networks:
+      - pg_game_network
+
+volumes:
+  postgres-pg_game-data:
+    driver: local
+networks:
+  pg_game_network:
+    driver: bridge

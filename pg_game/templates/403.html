@@ -1,0 +1,33 @@
+{% extends "layouts/app.html" %}
+{% load static %}
+{% block content %}
+    <div class="app-content content">
+        <div class="content-overlay"></div>
+        <div class="header-navbar-shadow"></div>
+        <div class="content-wrapper">
+            <div class="content-header row">
+            </div>
+            <div class="content-body">
+                <!-- error 404 -->
+                <section class="row flexbox-container">
+                    <div class="col-xl-12 col-md-12 col-12 d-flex justify-content-center">
+                        <div class="card auth-card bg-transparent shadow-none rounded-0 mb-0 w-100">
+                            <div class="card-content">
+                                <div class="card-body text-center">
+                                    <img src="{% static 'images/pages/404.png' }" class="img-fluid align-self-center" alt="branding logo">
+                                    <h1 class="font-large-2 my-1">403 - Доступ запрешен!</h1>
+                                    <h4 class="p-2">
+                                       У Вас нет прав для просмотра данной страницы
+                                    </h4>
+                                    <a class="btn btn-primary btn-lg mt-2" href="javascript: history.go(-1)">Назад</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- error 404 end -->
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+<!-- BEGIN: Head-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>P&G Game</title>
+    {% load static %}
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/ico/favicon.ico' %}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
+
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/css/vendors.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/css/animate/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/css/extensions/sweetalert2.min.css' %}">
+    <!-- BEGIN: Vendor CSS-->
+
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-extended.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/colors.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/themes/dark-layout.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/themes/semi-dark-layout.css' %}">
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/core/menu/menu-types/vertical-menu.css' %}">
+    <!-- END: Custom CSS-->
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'vendors/css/forms/select/select2.min.css' %}">
+    {% block css %} {% endblock %}
+    <!-- END: Page CSS-->
+</head>
+<!-- END: Head-->
+
+<!-- BEGIN: Body-->
+
+<body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static
+{% block body_class %} {% endblock %}"
+      data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+{% if request.resolver_match.url_name != 'login_form' and request.resolver_match.url_name != 'code_activate' %}
+{% include "layouts/header.html" %}
+{% endif %}
+
+<!-- BEGIN: Content-->
+{% block content %}{% endblock %}
+<!-- END: Content-->
+
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
+
+<!-- BEGIN: Footer-->
+<footer class="footer footer-light navbar-shadow m-0  {% block footer_class %} {% endblock %}">
+    <p class="clearfix blue-grey text-center lighten-2 mb-0">
+        <span class="float-md-center d-block d-md-inline-block mt-25">© APPLECity Distributors — P&G Game — Геймификация рейтингов торговой команды</span>
+    </p>
+</footer>
+<!-- END: Footer-->
+
+<!-- BEGIN: Vendor JS-->
+<script src="{% static 'vendors/js/vendors.min.js' %}"></script>
+<!-- BEGIN Vendor JS-->
+<!-- BEGIN: Page Vendor JS-->
+<script src="{% static 'vendors/js/extensions/sweetalert2.all.min.js' %}"></script>
+<script src="{% static 'vendors/js/extensions/polyfill.min.js' %}"></script>
+<!-- END: Page Vendor JS-->
+<!-- BEGIN: Theme JS-->
+<script src="{% static 'js/core/app-menu.js' %}"></script>
+<script src="{% static 'js/core/app.js' %}"></script>
+<script src="{% static 'js/scripts/components.js' %}"></script>
+<!-- END: Theme JS-->
+{% include "layouts/modal.html" %}
+<!-- BEGIN: Page JS-->
+<script src="{% static 'vendors/js/forms/select/select2.full.min.js' %}"></script>
+<script src="{% static 'js/scripts/forms/select/form-select2.js' %}"></script>
+{% block scripts %} {% endblock %}
+<!-- END: Page JS-->
+{% if messages %}
+<script>
+    $(function () {
+        $('#messageModal').modal('show');
+        // setTimeout(function () {
+        //     $('#messageModal').modal('hide')
+        // }, 5000);
+    });
+</script>
+{% endif %}
+</body>
+<!-- END: Body-->
+</html>

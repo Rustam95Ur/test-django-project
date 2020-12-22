@@ -1,0 +1,90 @@
+{% extends "layouts/app.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendors/css/pickers/pickadate/pickadate.css' %}">
+{% endblock %}
+{% block content %}
+<!-- BEGIN: Content-->
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">Отчет</h2>
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a>
+                                </li>
+                                <li class="breadcrumb-item active">Отчет
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <section class="page-users-view">
+                <div class="row">
+                    <div class="col-md-12 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Фильтр</div>
+                            </div>
+                            <div class="card-body ">
+                                <form method="post" action="{% url 'excel_export' %}">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <label for="start_date">Дата начала</label>
+                                            <input type='text' name="start_date" id='start_date'
+                                                   class="form-control  pickadate-export"/>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label for="end_date">Дата окончание</label>
+                                            <input type='text' name="end_date" id='end_date'
+                                                   class="form-control  pickadate-export"/>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label for="subdivision">Подразделения</label>
+                                            <select id="subdivision" name="subdivisions" class="select2 form-control"
+                                                    multiple>
+                                                {% for subdivision in subdivisions %}
+                                                <option value="{{subdivision.id}}">{{subdivision.title}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label for="device">Устройства</label>
+                                            <select id="device" name="devices" class="select2 form-control" multiple>
+                                                {% for device in devices %}
+                                                <option value="{{device.id}}">{{device.full_name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button type="submit" class="btn btn-primary">Отчет</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'vendors/js/pickers/pickadate/picker.js' %}"></script>
+<script src="{% static 'vendors/js/pickers/pickadate/picker.date.js' %}"></script>
+<script src="{% static 'vendors/js/pickers/pickadate/picker.time.js' %}"></script>
+<script src="{% static 'vendors/js/pickers/pickadate/legacy.js' %}"></script>
+<script src="{% static 'js/scripts/pickers/dateTime/pick-a-datetime.js' %}"></script>
+<script src="{% static 'js/scripts/forms/select/form-select2.js' %}"></script>
+{% endblock %}

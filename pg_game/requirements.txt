@@ -1,0 +1,9 @@
+Django==3.1.1
+psycopg2
+wfastcgi==3.0.0
+gunicorn
+radius
+openpyxl
+djangorestframework==3.11.1
+djangorestframework-simplejwt
+drf-yasg==1.17.1

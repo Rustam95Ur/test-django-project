@@ -1,0 +1,156 @@
+{% extends "layouts/app.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css"
+      href="{% static 'vendors/css/tables/datatable/datatables.min.css' %}">
+<link rel="stylesheet" type="text/css"
+      href="{% static 'vendors/css/tables/datatable/extensions/dataTables.checkboxes.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/pages/data-list-view.css' %}">
+{% endblock %}
+{% block content %}
+<!-- BEGIN: Content-->
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">Группы настроек</h2>
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a>
+                                </li>
+                                <li class="breadcrumb-item"><a href="{% url 'setting_list' %}">Настройки</a>
+                                </li>
+                                <li class="breadcrumb-item active">Список групп
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- Data list view starts -->
+            <section id="data-thumb-view" class="data-thumb-view-header">
+                <!-- dataTable starts -->
+                <div class="table-responsive">
+                    <table class="table data-thumb-view">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Название</th>
+                            <th>Статус</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for group in groups %}
+                        <tr>
+                            <td>{{ forloop.counter}}</td>
+                            <td class="rank-title" id="rank-title-{{group.id}}">{{group.title}}</td>
+                            <td>
+                                {% if group.is_active %}
+                                <div class="chip chip-success">
+                                    <div class="chip-body">
+                                        <div class="chip-text" id="status-{{group.id}}">Активный</div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="chip chip-danger">
+                                    <div class="chip-body">
+                                        <div class="chip-text">Неактивный</div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td class="product-action">
+                                <span class="action-edit" id="{{ group.id  }}"><i class="feather icon-edit"></i></span>
+                                 <span class="action-delete">
+                                    <a href="#" class="delete_confirm" id="data-delete-{{group.id}}">
+                                        <i class="feather icon-trash"></i>
+                                    </a>
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- dataTable ends -->
+
+                <!-- add new sidebar starts -->
+                <div class="add-new-data-sidebar">
+                    <div class="overlay-bg"></div>
+                    <div class="add-new-data">
+                        <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
+                            <div>
+                                <h4 class="text-uppercase" id="add-new-text">Добавить группу</h4>
+                                <h4 class="text-uppercase" id="edit-text" style="display: none">Редактировать
+                                    группу</h4>
+                            </div>
+                            <div class="hide-data-sidebar">
+                                <i class="feather icon-x"></i>
+                            </div>
+                        </div>
+                        <div class="data-items pb-3">
+                            <div class="data-fields px-2 mt-3">
+                                <form method="post" action="{% url 'save_update_setting_group' %}"
+                                      id="group_update_form"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-sm-12 data-field-col">
+                                            <label for="group-title">Название</label>
+                                            <input type="text" class="form-control" id="group-title" name="title">
+                                            <input type="hidden" name="id" id="group-id">
+                                        </div>
+                                        <div class="col-sm-12 data-field-col">
+                                            <fieldset>
+                                                <div class="vs-checkbox-con vs-checkbox-primary">
+                                                    <input type="checkbox" name="is_active" checked id="group-status">
+                                                    <span class="vs-checkbox">
+                                                            <span class="vs-checkbox--check">
+                                                                <i class="vs-icon feather icon-check"></i>
+                                                            </span>
+                                                        </span>
+                                                    <span class="">Активный</span>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="add-data-footer d-flex justify-content-around px-3 mt-2">
+                            <div class="add-data-btn">
+                                <button class="btn btn-primary" id="save_btn" type="submit" form="group_update_form">
+                                    Сохранить
+                                </button>
+                            </div>
+                            <div class="cancel-data-btn">
+                                <button class="btn btn-outline-danger">Отмена</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- add new sidebar ends -->
+            </section>
+            <!-- Data list view end -->
+
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'vendors/js/tables/datatable/datatables.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/datatables.buttons.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/datatables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/buttons.bootstrap.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/dataTables.select.min.js' %}"></script>
+<script src="{% static 'js/scripts/pages/app-group-settings.js' %}"></script>
+<script src="{% static 'js/scripts/extensions/delete-confirm.js' %}"></script>
+{% endblock %}

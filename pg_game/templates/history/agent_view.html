@@ -1,0 +1,161 @@
+{% extends "layouts/app.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendors/css/file-uploaders/dropzone.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/plugins/file-uploaders/dropzone.css' %}">
+<link rel="stylesheet" type="text/css"
+      href="{% static 'vendors/css/tables/datatable/datatables.min.css' %}">
+{% endblock %}
+{% block content %}
+{% load  image_tags %}
+
+<!-- BEGIN: Content-->
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">Пользователь #{{history.id}}</h2>
+
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a>
+                                </li>
+                                <li class="breadcrumb-item active">Информация о пользователе
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- page users view start -->
+            <section id="profile-info">
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Информация</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        {% if agent_image %}
+                                        <div class="avatar mr-1 avatar-xxl">
+                                            <img src="{{ agent_image.image.url | image_url_update }}"
+                                                 alt="avtar img holder">
+                                        </div>
+                                        {% else %}
+                                        <div class="img-fluid mb-1 rounded-sm">
+                                            <img src="{% static 'images/icons/default_logo.png' %}"
+                                                 alt="avtar img holder">
+                                        </div>
+                                        {% endif %}
+                                        <form method="post" action="{% url 'agent_update_image' %}"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="image"
+                                                       id="agent_image" required>
+                                                <input type="hidden" value="{{history.sa_code}}" name="code">
+                                                <label class="custom-file-label" for="agent_image">Изменить
+                                                    картинку</label>
+                                                <button type="submit"
+                                                        class="btn btn-outline-success waves-effect waves-light">
+                                                    Сохранить
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mt-1">
+                                            <h6 class="mb-0">ФИО:</h6>
+                                            <p>{{history.full_name}}</p>
+                                        </div>
+                                        <div class="mt-1">
+                                            <h6 class="mb-0">Подразделение:</h6>
+                                            <p>{{history.branch_name}}</p>
+                                        </div>
+                                        <div class="mt-1">
+                                            <h6 class="mb-0">Код:</h6>
+                                            <p>{{history.sa_code}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Показатели за месяц</h4>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="row py-1 border-bottom">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-4"><h6>Оценка</h6></div>
+                                    <div class="col-md-2"><h6>%</h6></div>
+                                </div>
+                                {% for kpi in kpi_values %}
+                                {% if kpi.show == 1 %}
+                                <div class="row ml-0 mr-0 py-1 border-bottom" style="background-color:{{kpi.color}}">
+                                    <div class="col-md-6 pl-4"><h6 class="text-bold-700">{{ kpi.title }}</h6></div>
+                                    <div class="col-md-4">
+                                        <div class="d-none rate" id="rate-{{ forloop.counter }}">{{ kpi.star }}</div>
+                                        <div id="star-{{ forloop.counter }}"></div>
+                                    </div>
+                                    <div class="col-md-2"><h6 class="text-bold-700">{{ kpi.percent }}%</h6></div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Личные достижения</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    {% for value in progress %}
+                                    <div class="col-lg-6">
+                                        <p class="pl-3 text-dark">{{value.title}}</p>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <p class="pl-3 text-dark">{{value.user_val}} из {{value.current_val }}</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- page users view end -->
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'js/scripts/raty/jquery.raty.js' %}"></script>
+<script type="text/javascript">
+    $(function () {
+        $.each($('.rate'), function () {
+                rate(($(this).attr('id')).replace('rate-', ''), $(this).html())
+            }
+        )
+    });
+
+    function rate(id, val) {
+        $('#star-' + id).raty({
+            start: val,
+            showHalf: true,
+            readOnly: true,
+        });
+    }
+</script>
+{% endblock %}

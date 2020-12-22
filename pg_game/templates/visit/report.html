@@ -1,0 +1,75 @@
+{% extends "layouts/app.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendors/css/pickers/pickadate/pickadate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/plugins/extensions/multiple-emails.css' %}">
+{% endblock %}
+{% block content %}
+<!-- BEGIN: Content-->
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">Отчет</h2>
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a>
+                                </li>
+                                <li class="breadcrumb-item active">Выгрузка отчета посещений
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- page users view start -->
+            <section class="page-users-view">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body card-dashboard">
+                                    <form action="{% url 'login_report_export' %}" method="post">
+                                        {% csrf_token %}
+                                        <div class="col-xl-12 col-lg-12">
+                                            <div class="form-group">
+                                                <label for="date_time">Дата (необязательно)</label>
+                                                <input type='text' id="date_time" name="date"
+                                                       class="form-control pickadate-translations"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 col-lg-12">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-success" id="upload-btn">
+                                                    Выгрузить
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- page users view end -->
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'vendors/js/pickers/pickadate/picker.js' %}"></script>
+<script src="{% static 'vendors/js/pickers/pickadate/picker.date.js' %}"></script>
+<script src="{% static 'vendors/js/pickers/pickadate/picker.time.js' %}"></script>
+<script src="{% static 'vendors/js/pickers/pickadate/legacy.js' %}"></script>
+<!-- END: Page Vendor JS-->
+
+<script src="{% static 'js/scripts/pickers/dateTime/pick-a-datetime.js' %}"></script>
+{% endblock %}

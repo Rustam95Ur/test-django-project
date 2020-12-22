@@ -1,0 +1,119 @@
+{% extends "layouts/app.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendors/css/file-uploaders/dropzone.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/plugins/file-uploaders/dropzone.css' %}">
+<link rel="stylesheet" type="text/css"
+      href="{% static 'vendors/css/tables/datatable/datatables.min.css' %}">
+{% endblock %}
+{% block content %}
+<!-- BEGIN: Content-->
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">История</h2>
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a>
+                                </li>
+                                <li class="breadcrumb-item active">Загрузка данных за текущий месяц
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- page users view start -->
+            <section class="page-users-view">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Загрузка данных</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-content">
+                                                <div class="card-body">
+                                                    <form action="#" method="post"
+                                                          class="dropzone dropzone-area"
+                                                          id="upload_save_file">
+                                                        {% csrf_token %}
+                                                        <div class="dz-message">Перетащите файлы сюда для загрузки</div>
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button form="upload_save_file"
+                                                class="btn btn-outline-success waves-effect waves-light"
+                                                type="submit" id="save_file_btn" disabled>
+                                            <i class="feather icon-save"></i>
+                                            Сохранить
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body card-dashboard">
+                                    <div class="table-responsive white-table">
+                                        <table class="table history-upload-table">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>ФИО</th>
+                                                <th>Название документа</th>
+                                                <th>Дата</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for history in histories %}
+                                            <tr>
+                                                <td>{{history.id}}</td>
+                                                <td>{{history.user_info }}</td>
+                                                <td>{{history.file_name}}</td>
+                                                <td>{{history.created_at}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- page users view end -->
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'vendors/js/extensions/dropzone.min.js' %}"></script>
+<script src="{% static 'vendors/js/ui/prism.min.js' %}"></script>
+
+<script src="{% static 'vendors/js/tables/datatable/datatables.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/datatables.buttons.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/datatables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/buttons.bootstrap.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/dataTables.select.min.js' %}"></script>
+
+<script src="{% static 'js/scripts/pages/app-history.js' %}"></script>
+{% endblock %}

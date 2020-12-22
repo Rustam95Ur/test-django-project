@@ -1,0 +1,9 @@
+.modal li {
+    list-style: none;
+}
+
+.white-table table.dataTable thead > tr > th.sorting_asc, .white-table table.dataTable thead > tr > th.sorting_desc, .white-table table.dataTable thead > tr >
+th.sorting, .white-table table.dataTable thead > tr > td.sorting_asc, .white-table table.dataTable thead > tr > td.sorting_desc,  .white-table table.dataTable
+thead > tr > td.sorting {
+    background-color: white;
+}

@@ -1,0 +1,95 @@
+{% extends "layouts/app.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'vendors/css/file-uploaders/dropzone.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/plugins/file-uploaders/dropzone.css' %}">
+<link rel="stylesheet" type="text/css"
+      href="{% static 'vendors/css/tables/datatable/datatables.min.css' %}">
+{% endblock %}
+{% block content %}
+<!-- BEGIN: Content-->
+<div class="app-content content">
+    <div class="content-overlay"></div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper">
+        <div class="content-header row">
+            <div class="content-header-left col-md-9 col-12 mb-2">
+                <div class="row breadcrumbs-top">
+                    <div class="col-12">
+                        <h2 class="content-header-title float-left mb-0">Пользователи</h2>
+                        <div class="breadcrumb-wrapper col-12">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a>
+                                </li>
+                                <li class="breadcrumb-item active">Список пользователей
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <!-- page users view start -->
+            <section class="page-users-view">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body card-dashboard">
+                                    <div class="table-responsive white-table">
+                                        <table class="table agents-list-table">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>ФИО</th>
+                                                <th>Подразделение</th>
+                                                <th>Код</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for history in histories %}
+                                            <tr>
+                                                <td>{{ forloop.counter}}</td>
+                                                <td>{{history.full_name }}</td>
+                                                <td>{{history.branch_name}}</td>
+                                                <td>{{history.sa_code}}</td>
+                                                <td>
+                                                     <span class="action-view">
+                                                         <a href="{% url 'agent_history' history.id %}">
+                                                             <i class="feather icon-eye"></i>
+                                                         </a>
+                                                     </span>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- page users view end -->
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
+{% endblock %}
+{% block scripts %}
+<script src="{% static 'vendors/js/extensions/dropzone.min.js' %}"></script>
+<script src="{% static 'vendors/js/ui/prism.min.js' %}"></script>
+
+<script src="{% static 'vendors/js/tables/datatable/datatables.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/datatables.buttons.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/datatables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/buttons.bootstrap.min.js' %}"></script>
+<script src="{% static 'vendors/js/tables/datatable/dataTables.select.min.js' %}"></script>
+
+<script>
+    $('.agents-list-table').DataTable();
+</script>
+{% endblock %}
